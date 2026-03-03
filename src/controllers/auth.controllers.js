@@ -1,5 +1,6 @@
 const userModel = require("../models/user.model");
 const jwt = require("jsonwebtoken");
+const emailService = require("../services/email.service");
 
 async function userRegisterController(req, res) {
   const { email, password, name } = req.body;
@@ -28,7 +29,7 @@ async function userRegisterController(req, res) {
   res.cookie("token", token);
 
   res.status(201).json({
-    message:"Registered successfully",
+    message: "Registered successfully",
     user: {
       _id: user._id,
       email: user.email,
@@ -36,6 +37,8 @@ async function userRegisterController(req, res) {
     },
     token,
   });
+
+  await emailService.sendRegistrationEmail(user.email, user.name);
 }
 
 async function userLoginController(req, res) {
@@ -64,7 +67,7 @@ async function userLoginController(req, res) {
   res.cookie("token", token);
 
   res.status(200).json({
-    message:"Login Successfull",
+    message: "Login Successfull",
     user: {
       _id: user._id,
       email: user.email,
