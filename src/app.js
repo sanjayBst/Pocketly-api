@@ -10,7 +10,7 @@ app.use(cookieParser());
 app.use(express.json());
 
 app.get("/", (req, res) => {
-  res.send("Pocketly is Luve now");
+  res.send("Pocketly is Live now");
 });
 
 app.use("/api/auth", authRouter);
