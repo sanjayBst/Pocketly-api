@@ -47,4 +47,40 @@ We’re glad you chose Pocketly. Let’s make every transaction effortless!\n Te
   await sendEmail(userEmail, subject, text, html);
 }
 
-module.exports = { sendRegistrationEmail };
+async function sendTransactionEmail(
+  userEmail,
+  name,
+  amount,
+  fromAccount,
+  toAccount,
+) {
+  const subject = "Transaction Alert from Pocketly Wallet";
+  const text = `Hello ${name}, \n\n A transaction of amount ${amount} has been made from your account ${fromAccount} to account ${toAccount}.\n
+If you did not authorize this transaction, please contact our support team immediately.\n Team Pocketly`;
+
+  const html = `<p>Hello ${name}</p> <p>A transaction of amount <strong>${amount}</strong> has been made from your account <strong>${fromAccount}</strong> to account <strong>${toAccount}</strong>.</p> <p>If you did not authorize this transaction, please contact our support team immediately.</p> <p>Team Pocketly</p>`;
+
+  await sendEmail(userEmail, subject, text, html);
+}
+
+async function failedTransactionEmail(
+  userEmail,
+  name,
+  amount,
+  fromAccount,
+  toAccount,
+) {
+  const subject = "Failed Transaction Alert from Pocketly Wallet";
+  const text = `Hello ${name}, \n\n A transaction of amount ${amount} from your account ${fromAccount} to account ${toAccount} has failed.\n
+Please check your account balance and try again.\n Team Pocketly`;
+
+  const html = `<p>Hello ${name}</p> <p>A transaction of amount <strong>${amount}</strong> from your account <strong>${fromAccount}</strong> to account <strong>${toAccount}</strong> has failed.</p> <p>Please check your account balance and try again.</p> <p>Team Pocketly</p>`;
+
+  await sendEmail(userEmail, subject, text, html);
+}
+
+module.exports = {
+  sendRegistrationEmail,
+  sendTransactionEmail,
+  failedTransactionEmail,
+};
